@@ -33,7 +33,8 @@
     "lint"
   ],
   "dependencies": {
-    "react-native-keyboard-spacer": "miguelsm/react-native-keyboard-spacer#screen-height-prop"
+    "react-native-keyboard-spacer": "miguelsm/react-native-keyboard-spacer#screen-height-prop",
+    "react-native-root-modal": "git+https://github.com/sckoh/react-native-root-modal.git#ada30e0"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
