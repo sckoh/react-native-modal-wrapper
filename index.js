@@ -30,7 +30,6 @@ export default class ModalWrapper extends Component {
     if (position === 'top' || position === 'left') {
       initialPosition = -initialPosition;
     }
-    console.log('initialPosition: ', initialPosition);
     return initialPosition;
   };
 
@@ -155,7 +154,6 @@ export default class ModalWrapper extends Component {
       modalProps
     } = this.props;
     const { currentPosition, isAnimating, overlayOpacity } = this.state;
-    console.log('overlayOpacity: ', overlayOpacity);
     const isVisible = visible || isAnimating;
     const modalStyle = [
       styles.modal,
