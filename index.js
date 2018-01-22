@@ -1,14 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {
-  Animated,
-  Dimensions,
-  Platform,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  View
-} from 'react-native';
+import { Animated, Dimensions, Platform, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-root-modal';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import PropTypes from 'prop-types';
@@ -70,12 +63,7 @@ export default class ModalWrapper extends Component {
       if (newProps.visible) {
         this.animateOpen();
       } else {
-        const {
-          onAnimateClose,
-          onRequestClose,
-          shouldAnimateOnOverlayPress,
-          shouldAnimateOnRequestClose
-        } = newProps;
+        const { onAnimateClose, onRequestClose, shouldAnimateOnOverlayPress, shouldAnimateOnRequestClose } = newProps;
         const handleClose = shouldAnimate => {
           if (shouldAnimate) {
             this.animateClose();
@@ -144,14 +132,22 @@ export default class ModalWrapper extends Component {
   };
 
   render() {
-    const { visible, ...nativeModalProps } = Object.keys(Modal.propTypes).reduce((previous, current) => {
+    const { visible } = Object.keys(Modal.propTypes).reduce((previous, current) => {
       if (this.props.hasOwnProperty(current)) {
         previous[current] = this.props[current];
       }
       return previous;
     }, {});
-    const { children, containerStyle, isNative, overlayStyle, overlayTestID, showOverlay, screenHeight, style,
-          ...modalProps } = Object.keys(this.props).reduce((previous, current) => {
+    const {
+      children,
+      containerStyle,
+      overlayStyle,
+      overlayTestID,
+      showOverlay,
+      screenHeight,
+      style,
+      ...modalProps
+    } = Object.keys(this.props).reduce((previous, current) => {
       // the reducer is used to get the correct set of ...modalProps
       if (!Modal.propTypes.hasOwnProperty(current) && current !== 'position') {
         previous[current] = this.props[current];
@@ -164,22 +160,24 @@ export default class ModalWrapper extends Component {
       styles.modal,
       style,
       {
-        transform: this.isVertical()
-          ? [{ translateY: currentPosition }]
-          : [{ translateX: currentPosition }]
+        transform: this.isVertical() ? [{ translateY: currentPosition }] : [{ translateX: currentPosition }]
       }
     ];
-    const modal = <Animated.View style={modalStyle} {...modalProps}>
-      {children}
-    </Animated.View>;
+    const modal =
+      <Animated.View style={modalStyle} {...modalProps}>
+        {children}
+      </Animated.View>
+    ;
     const computedScreenHeight = screenHeight ? screenHeight : Dimensions.get('window').height;
     const keyboardSpacer = Platform.OS === 'ios' ? <KeyboardSpacer screenHeight={computedScreenHeight} /> : null;
-    const renderContainer = () => ( // eslint-disable-line no-extra-parens
+    const renderContainer = () =>
+      // eslint-disable-line no-extra-parens
       <View style={[styles.container, containerStyle]}>
         {showOverlay &&
           <TouchableWithoutFeedback style={styles.overlayWrapper} onPress={this.onOverlayPress} testID={overlayTestID}>
             <Animated.View style={[styles.overlay, overlayStyle, { opacity: overlayOpacity }]} />
-          </TouchableWithoutFeedback>}
+          </TouchableWithoutFeedback>
+        }
         {modal}
       </View>
     ;

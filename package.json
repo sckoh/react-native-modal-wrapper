@@ -1,8 +1,7 @@
 {
   "name": "react-native-modal-wrapper",
   "version": "3.1.0",
-  "description":
-    "Wrapper component that extends the react native Modal component, adding overlay clickable behavior and allowing swipe in and out in all directions",
+  "description": "Wrapper component that extends the react native Modal component, adding overlay clickable behavior and allowing swipe in and out in all directions",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -30,11 +29,13 @@
     "url": "https://github.com/raynor85/react-native-modal-wrapper/issues"
   },
   "homepage": "https://github.com/raynor85/react-native-modal-wrapper#readme",
-  "pre-commit": ["lint"],
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
-    "react-native-root-modal":
-      "git+https://github.com/sckoh/react-native-root-modal.git#fix-RN-0.48",
-    "react-native-keyboard-spacer": "^0.4.1"
+    "prop-types": "^15.6.0",
+    "react-native-keyboard-spacer": "^0.4.1",
+    "react-native-root-modal": "git+https://github.com/sckoh/react-native-root-modal.git#fix-prop-types"
   },
   "devDependencies": {
     "babel-eslint": "8.0.1",
