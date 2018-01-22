@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-root-modal';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import PropTypes from 'prop-types';
 
 export default class ModalWrapper extends Component {
   constructor(props) {
@@ -143,16 +144,20 @@ export default class ModalWrapper extends Component {
   };
 
   render() {
-    const {
-      visible,
-      children,
-      containerStyle,
-      overlayStyle,
-      showOverlay,
-      screenHeight,
-      style,
-      modalProps
-    } = this.props;
+    const { visible, ...nativeModalProps } = Object.keys(Modal.propTypes).reduce((previous, current) => {
+      if (this.props.hasOwnProperty(current)) {
+        previous[current] = this.props[current];
+      }
+      return previous;
+    }, {});
+    const { children, containerStyle, isNative, overlayStyle, overlayTestID, showOverlay, screenHeight, style,
+          ...modalProps } = Object.keys(this.props).reduce((previous, current) => {
+      // the reducer is used to get the correct set of ...modalProps
+      if (!Modal.propTypes.hasOwnProperty(current) && current !== 'position') {
+        previous[current] = this.props[current];
+      }
+      return previous;
+    }, {});
     const { currentPosition, isAnimating, overlayOpacity } = this.state;
     const isVisible = visible || isAnimating;
     const modalStyle = [
@@ -164,31 +169,16 @@ export default class ModalWrapper extends Component {
           : [{ translateX: currentPosition }]
       }
     ];
-    const modal =
-      <Animated.View style={modalStyle} {...modalProps}>
-        {children}
-      </Animated.View>
-    ;
-    const computedScreenHeight = screenHeight
-      ? screenHeight
-      : Dimensions.get('window').height;
-    const keyboardSpacer = Platform.OS === 'ios'
-      ? <KeyboardSpacer screenHeight={computedScreenHeight} />
-      : null;
-    const renderContainer = () =>
+    const modal = <Animated.View style={modalStyle} {...modalProps}>
+      {children}
+    </Animated.View>;
+    const computedScreenHeight = screenHeight ? screenHeight : Dimensions.get('window').height;
+    const keyboardSpacer = Platform.OS === 'ios' ? <KeyboardSpacer screenHeight={computedScreenHeight} /> : null;
+    const renderContainer = () => ( // eslint-disable-line no-extra-parens
       <View style={[styles.container, containerStyle]}>
         {showOverlay &&
-          <TouchableWithoutFeedback
-            style={styles.overlayWrapper}
-            onPress={this.onOverlayPress}
-          >
-            <Animated.View
-              style={[
-                styles.overlay,
-                overlayStyle,
-                { opacity: overlayOpacity }
-              ]}
-            />
+          <TouchableWithoutFeedback style={styles.overlayWrapper} onPress={this.onOverlayPress} testID={overlayTestID}>
+            <Animated.View style={[styles.overlay, overlayStyle, { opacity: overlayOpacity }]} />
           </TouchableWithoutFeedback>}
         {modal}
       </View>
@@ -203,20 +193,21 @@ export default class ModalWrapper extends Component {
 }
 
 ModalWrapper.propTypes = {
-  animateOnMount: React.PropTypes.bool,
-  animationDuration: React.PropTypes.number,
-  containerStyle: React.PropTypes.any,
-  isNative: React.PropTypes.bool,
-  onAnimateClose: React.PropTypes.func,
-  onAnimateOpen: React.PropTypes.func,
-  overlayStyle: React.PropTypes.any,
-  position: React.PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
-  screenHeight: React.PropTypes.number,
-  showOverlay: React.PropTypes.bool,
-  shouldAnimateOnOverlayPress: React.PropTypes.bool,
-  shouldAnimateOnRequestClose: React.PropTypes.bool,
-  shouldCloseOnOverlayPress: React.PropTypes.bool,
-  visible: React.PropTypes.bool.isRequired
+  animateOnMount: PropTypes.bool,
+  animationDuration: PropTypes.number,
+  containerStyle: PropTypes.any,
+  isNative: PropTypes.bool,
+  onAnimateClose: PropTypes.func,
+  onAnimateOpen: PropTypes.func,
+  overlayStyle: PropTypes.any,
+  overlayTestID: PropTypes.string,
+  position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+  screenHeight: PropTypes.number,
+  showOverlay: PropTypes.bool,
+  shouldAnimateOnOverlayPress: PropTypes.bool,
+  shouldAnimateOnRequestClose: PropTypes.bool,
+  shouldCloseOnOverlayPress: PropTypes.bool,
+  visible: PropTypes.bool.isRequired
 };
 
 ModalWrapper.defaultProps = {
