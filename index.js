@@ -132,6 +132,7 @@ export default class ModalWrapper extends Component {
   };
 
   render() {
+    const { style } = this.props;
     const { visible } = Object.keys(Modal.propTypes).reduce((previous, current) => {
       if (this.props.hasOwnProperty(current)) {
         previous[current] = this.props[current];
@@ -145,7 +146,6 @@ export default class ModalWrapper extends Component {
       overlayTestID,
       showOverlay,
       screenHeight,
-      style,
       ...modalProps
     } = Object.keys(this.props).reduce((previous, current) => {
       // the reducer is used to get the correct set of ...modalProps
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   modal: {
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     justifyContent: 'center'
   },
   overlay: {
