@@ -182,7 +182,7 @@ export default class ModalWrapper extends Component {
       </View>
     ;
     return (
-      <Modal visible={isVisible} {...modalProps}>
+      <Modal visible={isVisible} style={styles.rootModal}>
         {renderContainer()}
         {keyboardSpacer}
       </Modal>
@@ -194,7 +194,6 @@ ModalWrapper.propTypes = {
   animateOnMount: PropTypes.bool,
   animationDuration: PropTypes.number,
   containerStyle: PropTypes.any,
-  isNative: PropTypes.bool,
   onAnimateClose: PropTypes.func,
   onAnimateOpen: PropTypes.func,
   overlayStyle: PropTypes.any,
@@ -212,7 +211,6 @@ ModalWrapper.defaultProps = {
   animateOnMount: false,
   animationDuration: 300,
   animationType: 'none',
-  isNative: true,
   onAnimateClose: () => null,
   onAnimateOpen: () => null,
   onRequestClose: () => null,
@@ -233,6 +231,9 @@ const styles = StyleSheet.create({
   modal: {
     backgroundColor: 'transparent',
     justifyContent: 'center'
+  },
+  rootModal: {
+    backgroundColor: 'transparent'
   },
   overlay: {
     backgroundColor: '#000',
